@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs } from "./store/actions/jobActions";
 import JobCard from "./utils/JobCard";
+import AutoCompleteDropdown from "./utils/auto-complete/AutoCompleteDropdown";
+import { MinBasePay, minExp, remoteList, rolesList } from "./utils/fakeData";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,9 +52,47 @@ function App() {
       }
     });
   }
-}, [jobList]);
+ }, [jobList]);
+  
+  
   return (
     <div className="App">
+      <div style={{ margin: "20px", display: "flex", gap: "20px" }}>
+        <AutoCompleteDropdown
+          multiple={false}
+          placeholder="Min experience"
+          listData={minExp}
+          onChange={(value) => {
+            console.log("v", value);
+          }}
+        />
+        {/* <AutoCompleteDropdown placeholder="Location" listData={minExp} /> */}
+        <AutoCompleteDropdown
+          multiple={true}
+          placeholder="Remote/on-site"
+          listData={remoteList}
+          onChange={(value) => {
+            console.log("v", value);
+          }}
+        />
+        {/* <AutoCompleteDropdown placeholder="Tech stack" listData={minExp} /> */} 
+        <AutoCompleteDropdown
+          multiple={true}
+          placeholder="Roles"
+          listData={rolesList}
+          onChange={(value) => {
+            console.log("v", value);
+          }}
+        />
+        <AutoCompleteDropdown
+          multiple={false}
+          placeholder="Min base pay"
+          listData={MinBasePay}
+          onChange={(value) => {
+            console.log("v1", value);
+          }}
+        />
+      </div>
       <div
         ref={containerRef}
         style={{
