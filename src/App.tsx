@@ -14,9 +14,10 @@ function App() {
   const [filterList, setFilterList] = useState<any>([])
   const [filterData, setFilterData] = useState<any>({
     minExp: [],
-    remote: [],
+    location: [],
     roles: [],
     minBasePay: null,
+    companyName: null,
   });
   useEffect(() => {
     dispatch<any>(fetchJobs(10, 0)); // Fetch initial jobs
@@ -64,12 +65,12 @@ function App() {
   const isFilterApplied = () => {    
     return (
       filterData?.minExp?.label ||
-      filterData?.remote?.length > 0 ||
+      filterData?.location?.label ||
       filterData?.roles?.label ||
-      filterData?.minBasePay !== null
+      filterData?.minBasePay !== null ||
+      filterData?.companyName
     );
   };  
-  console.log("filterList:",filterList)
 
   useEffect(() => {
     if (isFilterApplied()) {
@@ -79,18 +80,39 @@ function App() {
           (data: any) => data?.minExp == filterData?.minExp?.label
         );
       }
-      console.log("v:", filterData?.roles?.label);
       
        if (filterData?.roles?.label) {
          filteredData = filteredData
            ? filteredData.filter(
                (data: any) =>
-                 data?.jobRole == filterData?.roles?.label?.toLowerCase()
+                 data?.jobRole === filterData?.roles?.label?.toLowerCase()
              )
            : allJobs?.filter(
                (data: any) =>
-                 data?.jobRole == filterData?.roles?.label?.toLowerCase()
+                 data?.jobRole === filterData?.roles?.label?.toLowerCase()
              );
+       }
+      if (filterData?.location?.label) {
+        filteredData = filteredData
+          ? filteredData.filter(
+              (data: any) =>
+                data?.location === filterData?.location?.label?.toLowerCase()
+            )
+          : allJobs?.filter(
+              (data: any) =>
+                data?.location === filterData?.location?.label?.toLowerCase()
+            );
+      }
+       if (filterData?.companyName) {
+         filteredData = filteredData
+           ?
+            filteredData?.filter((item: any) =>
+              item?.companyName?.toLowerCase().includes(filterData?.companyName?.toLowerCase())
+            )
+           : 
+            allJobs?.filter((item: any) =>
+              item.toLowerCase().includes(filterData?.companyName?.toLowerCase())
+            );
        }
       setFilterList(filteredData);
     }

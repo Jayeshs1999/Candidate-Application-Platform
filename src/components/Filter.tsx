@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AutoCompleteDropdown from '../utils/auto-complete/AutoCompleteDropdown';
-import { MinBasePay, minExp, remoteList, rolesList } from '../utils/fakeData';
+import {  locationList, minExp, rolesList } from '../utils/fakeData';
+import Textfield from '../utils/textfields/Textfield';
 
 interface FilterProps {
     handleFilterData: (filter:any) => void;
@@ -9,10 +10,12 @@ interface FilterProps {
 const Filter = ({ handleFilterData }: FilterProps) => {
   const [filterData, setFilterData] = useState({
     minExp: [],
-    remote: [],
+    location: [],
     roles: [],
     minBasePay: null,
+    companyName: null,
   });
+
   // Function to handle filter change
   const handleFilterChange = (filterName: string, value: any) => {
     setFilterData((prevState) => ({
@@ -49,23 +52,18 @@ const Filter = ({ handleFilterData }: FilterProps) => {
       />
       {/* <AutoCompleteDropdown placeholder="Location" listData={minExp} /> */}
       <AutoCompleteDropdown
-        multiple={true}
-        placeholder="Remote/on-site"
-        listData={remoteList}
+        multiple={false}
+        placeholder="Location"
+        listData={locationList}
         onChange={(value) => {
-          // console.log("v", value);
-          handleFilterChange("remote", value);
+          handleFilterChange("location", value);
         }}
       />
-      {/* <AutoCompleteDropdown placeholder="Tech stack" listData={minExp} /> */}
-
-      <AutoCompleteDropdown
-        multiple={false}
-        placeholder="Min base pay"
-        listData={MinBasePay}
-        onChange={(value) => {
-          // console.log("v1", value);
-          handleFilterChange("minBasePay", value);
+      <Textfield
+        value={filterData?.companyName}
+        label="Company Name"
+        onChange={(value: any) => {
+          handleFilterChange("companyName", value);
         }}
       />
     </div>

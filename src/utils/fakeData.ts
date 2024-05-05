@@ -22,10 +22,11 @@ export const MinBasePay = [
   { label: "70L" },
 ];
 
-export const remoteList = [
+export const locationList = [
+  { label: "Mumbai" },
+  { label: "Chennai" },
   { label: "Remote" },
-  { label: "Hybrid" },
-  { label: "In-Office" },
+  { label: "Delhi NCR" },
 ];
 
 export const rolesList = [
@@ -43,7 +44,6 @@ export const rolesList = [
   { label: "Computer Vision" },
   { label: "Deep Learning" },
   { label: "Dev-Ops" },
-  { label: "Data Engineer" },
 ];
 
 
