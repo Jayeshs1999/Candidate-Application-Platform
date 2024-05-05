@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import { Button } from "@mui/material";
 
-export default function JobCard({job}:any) {
+export default function JobCard({ job }: any) {
   const [expanded, setExpanded] = React.useState(false);
 
  const handleExpandClick = () => {
@@ -54,7 +54,7 @@ export default function JobCard({job}:any) {
                 color: "rgba(0, 0, 0, 0.87)",
               }}
             >
-              {job.title}
+              {job?.jobRole}
             </div>
             <div
               style={{
@@ -89,10 +89,10 @@ export default function JobCard({job}:any) {
         </Typography>
         <Typography variant="body2" style={{ fontSize: "14px" }}>
           {expanded
-            ? job.description
-            : `${job.description.substring(0, 300)}...`}
+            ? job?.jobDetailsFromCompany
+            : `${job?.jobDetailsFromCompany?.substring(0, 300)}...`}
         </Typography>
-        {job.description.length > 100 && (
+        {job?.jobDetailsFromCompany?.length > 100 && (
           <Typography
             variant="body2"
             color="text.secondary"
@@ -115,7 +115,7 @@ export default function JobCard({job}:any) {
             Minimum Experience
           </Typography>
           <Typography style={{ fontSize: "14px", lineHeight: "1.5" }}>
-            {job.experience}
+            {job?.minExp}
           </Typography>
         </div>
       </CardContent>
