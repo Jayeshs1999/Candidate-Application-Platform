@@ -3,9 +3,7 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import { Button } from "@mui/material";
 
 export default function JobCard({ job }: any) {
@@ -25,12 +23,7 @@ export default function JobCard({ job }: any) {
     >
       <CardHeader
         avatar={
-          <Avatar
-            sx={{ bgcolor: red[500], borderRadius: "0" }}
-            aria-label="recipe"
-          >
-            R
-          </Avatar>
+          <img src={job?.logoUrl} style={{ width: "50px" }} alt="logo" />
         }
         title={
           <div
@@ -42,7 +35,7 @@ export default function JobCard({ job }: any) {
               color: "#8b8b8b",
             }}
           >
-            {job.companyName}
+            {job.companyName || "NA"}
           </div>
         }
         subheader={
@@ -54,7 +47,7 @@ export default function JobCard({ job }: any) {
                 color: "rgba(0, 0, 0, 0.87)",
               }}
             >
-              {job?.jobRole}
+              {job?.jobRole || "NA"}
             </div>
             <div
               style={{
@@ -64,7 +57,7 @@ export default function JobCard({ job }: any) {
                 color: "rgba(0, 0, 0, 0.87)",
               }}
             >
-              {job.location}
+              {job.location || "NA"}
             </div>
           </>
         }
@@ -115,7 +108,7 @@ export default function JobCard({ job }: any) {
             Minimum Experience
           </Typography>
           <Typography style={{ fontSize: "14px", lineHeight: "1.5" }}>
-            {job?.minExp}
+            {job?.minExp || "NA"}
           </Typography>
         </div>
       </CardContent>
@@ -133,12 +126,6 @@ export default function JobCard({ job }: any) {
         >
           Easy Apply
         </Button>
-        {/* <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton> */}
       </CardActions>
     </Card>
   );
