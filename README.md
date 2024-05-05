@@ -2,6 +2,19 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Clone The repository
+```
+git clone https://github.com/Jayeshs1999/candidate-application-platform.git
+```
+Go to Project folder and do
+```
+npm i
+```
+or
+```
+npm i --force
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
