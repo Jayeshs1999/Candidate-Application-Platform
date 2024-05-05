@@ -23,6 +23,7 @@ export default function AutoCompleteDropdown({
 
   return (
     <Autocomplete
+      style={{width:'100%'}}
       multiple={multiple}
       size="small"
       disablePortal
@@ -30,7 +31,9 @@ export default function AutoCompleteDropdown({
       options={listData}
       sx={{ width: 300 }}
       onChange={handleChange} // Pass handleChange function to onChange prop of Autocomplete
-      renderInput={(params) => <TextField {...params} label={placeholder} />}
+      renderInput={(params) => (
+        <TextField  {...params} label={placeholder} />
+      )}
     />
   );
 }

@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import AutoCompleteDropdown from '../utils/auto-complete/AutoCompleteDropdown';
 import {  locationList, minExp, rolesList } from '../utils/fakeData';
 import Textfield from '../utils/textfields/Textfield';
+import useDeviceType from '../utils/DeviceType';
 
 interface FilterProps {
     handleFilterData: (filter:any) => void;
 }
 
 const Filter = ({ handleFilterData }: FilterProps) => {
+  const deviceType = useDeviceType();
   const [filterData, setFilterData] = useState({
     minExp: [],
     location: [],
@@ -23,22 +25,19 @@ const Filter = ({ handleFilterData }: FilterProps) => {
       [filterName]: value,
     }));
   };
-//   console.log("filterData:", filterData);
 
     useEffect(() => {
       handleFilterData(filterData);
   }, [filterData]);
 
   return (
-    <div style={{ margin: "20px", display: "flex", gap: "20px" }}>
+    <div style={{ margin: deviceType ==='mobile'? '20px 10px': "20px", display: deviceType==='mobile'? 'grid': "flex", gridTemplateColumns:'1fr 1fr', gap: deviceType==='mobile'?'15px': "20px" }}>
       <AutoCompleteDropdown
         multiple={false}
         placeholder="Min experience"
         listData={minExp}
         onChange={(value) => {
           handleFilterChange("minExp", value);
-          //   setFilterData((prev: any) => ({ ...prev, minExp: value.label }));
-          // handleFilterChange('minExp')
         }}
       />
       <AutoCompleteDropdown
@@ -46,11 +45,9 @@ const Filter = ({ handleFilterData }: FilterProps) => {
         placeholder="Roles"
         listData={rolesList}
         onChange={(value) => {
-          //   console.log("v", value);
           handleFilterChange("roles", value);
         }}
       />
-      {/* <AutoCompleteDropdown placeholder="Location" listData={minExp} /> */}
       <AutoCompleteDropdown
         multiple={false}
         placeholder="Location"

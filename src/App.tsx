@@ -3,15 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs } from "./store/actions/jobActions";
 import JobCard from "./utils/JobCard";
 import Filter from "./components/Filter";
+import useDeviceType from "./utils/DeviceType";
 
 function App() {
+  const deviceType = useDeviceType();
   const dispatch = useDispatch();
   const jobList = useSelector((state: any) => state?.jobs.jobList);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const containerRef = useRef<any>(null);
-  const [allJobs, setAllJobs] = useState<any>(jobList?.jdList);
-  const [filterList, setFilterList] = useState<any>([])
+  const dummyRef = useRef<any>(null);
+  const [allJobs, setAllJobs] = useState<any>([]);
+  const [filterList, setFilterList] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>({
     minExp: [],
     location: [],
@@ -19,6 +22,17 @@ function App() {
     minBasePay: null,
     companyName: null,
   });
+
+   const isFilterApplied = () => {
+     return (
+       filterData?.minExp?.label ||
+       filterData?.location?.label ||
+       filterData?.roles?.label ||
+       filterData?.minBasePay !== null ||
+       filterData?.companyName
+     );
+   };
+
   useEffect(() => {
     dispatch<any>(fetchJobs(10, 0)); // Fetch initial jobs
   }, [dispatch]);
@@ -38,126 +52,91 @@ function App() {
 
     if (!isFilterApplied()) {
       window.addEventListener("scroll", handleScroll);
-    } 
+    }
     return () => window.removeEventListener("scroll", handleScroll);
   }, [loading]);
 
   useEffect(() => {
-    if (page > 0) {
+    if (page > 0 && !isFilterApplied()) {
       dispatch<any>(fetchJobs(10, page * 10));
-      setAllJobs((prev:any) => [...prev, jobList?.jdList]);
-      setLoading(false);
     }
   }, [page, dispatch]);
 
- useEffect(() => {
-  if (jobList && jobList.jdList) {
-    setAllJobs((prev:any) => {
-      if (prev === undefined) {
-        return [...jobList.jdList];
-      } else {
-        return [...prev, ...jobList.jdList];
-      }
-    });
-  }
- }, [jobList]);
-  
-  const isFilterApplied = () => {    
-    return (
-      filterData?.minExp?.label ||
-      filterData?.location?.label ||
-      filterData?.roles?.label ||
-      filterData?.minBasePay !== null ||
-      filterData?.companyName
-    );
-  };  
+  useEffect(() => {
+    if (jobList && jobList.jdList) {
+      setAllJobs((prev: any) => [...prev, ...jobList.jdList]);
+      setLoading(false);
+    }
+  }, [jobList]);
 
   useEffect(() => {
     if (isFilterApplied()) {
       let filteredData = [...allJobs];
       if (filterData.minExp?.label) {
-        filteredData = allJobs?.filter(
+        filteredData = filteredData.filter(
           (data: any) => data?.minExp == filterData?.minExp?.label
         );
       }
-      
-       if (filterData?.roles?.label) {
-         filteredData = filteredData
-           ? filteredData.filter(
-               (data: any) =>
-                 data?.jobRole === filterData?.roles?.label?.toLowerCase()
-             )
-           : allJobs?.filter(
-               (data: any) =>
-                 data?.jobRole === filterData?.roles?.label?.toLowerCase()
-             );
-       }
-      if (filterData?.location?.label) {
-        filteredData = filteredData
-          ? filteredData.filter(
-              (data: any) =>
-                data?.location === filterData?.location?.label?.toLowerCase()
-            )
-          : allJobs?.filter(
-              (data: any) =>
-                data?.location === filterData?.location?.label?.toLowerCase()
-            );
+      if (filterData?.roles?.label) {
+        filteredData = filteredData.filter(
+          (data: any) =>
+            data?.jobRole === filterData?.roles?.label?.toLowerCase()
+        );
       }
-       if (filterData?.companyName) {
-         filteredData = filteredData
-           ?
-            filteredData?.filter((item: any) =>
-              item?.companyName?.toLowerCase().includes(filterData?.companyName?.toLowerCase())
-            )
-           : 
-            allJobs?.filter((item: any) =>
-              item.toLowerCase().includes(filterData?.companyName?.toLowerCase())
-            );
-       }
+      if (filterData?.location?.label) {
+        filteredData = filteredData.filter(
+          (data: any) =>
+            data?.location === filterData?.location?.label?.toLowerCase()
+        );
+      }
+      if (filterData?.companyName) {
+        filteredData = filteredData.filter((item: any) =>
+          item?.companyName
+            ?.toLowerCase()
+            .includes(filterData?.companyName?.toLowerCase())
+        );
+      }
       setFilterList(filteredData);
     }
-  },[filterData])
+  }, [filterData, allJobs]);
 
-
-  
-  
   return (
     <div className="App">
-      <Filter
-        handleFilterData={(filterData) => {
-          setFilterData(filterData);
+      <div>
+        <Filter
+          handleFilterData={(filterData) => {
+            setFilterData(filterData);
+          }}
+        />
+      </div>
+
+      <div
+        ref={isFilterApplied() ? dummyRef : containerRef}
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            deviceType === "mobile"
+              ? "1fr"
+              : deviceType === "extra-large-desktop"
+              ? "1fr 1fr 1fr 1fr 1fr"
+              : deviceType === "desktop"
+              ? "1fr 1fr 1fr 1fr"
+              : deviceType === "tablet"
+              ? "1fr 1fr"
+              : deviceType === "small-tablet"
+              ? "1fr 1fr"
+              : "1fr 1fr 1fr 1fr",
+          gap: "25px",
+          margin: "20px",
         }}
-      />
-      {!isFilterApplied() ? (
-        <div
-          ref={containerRef}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            gap: "25px",
-            margin: "20px",
-          }}
-        >
-          {allJobs?.map((job: any, index: number) => (
+      >
+        {(isFilterApplied() ? filterList : allJobs)?.map(
+          (job: any, index: number) => (
             <JobCard key={index} job={job} />
-          ))}
-          {loading && <p>Loading...</p>}
-        </div>
-      ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            gap: "25px",
-            margin: "20px",
-          }}
-        >
-          {filterList?.map((job: any, index: number) => (
-            <JobCard key={index} job={job} />
-          ))}
-          
-        </div>
-      )}
+          )
+        )}
+      </div>
+      {loading && <p style={{ textAlign: "center" }}>Loading...</p>}
     </div>
   );
 }

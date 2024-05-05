@@ -16,7 +16,8 @@ export default function Textfield({ value,label,onChange }: TextfieldProps) {
        // console.log("value:",value.label)
      };
   return (
-    <TextField
+      <TextField
+          fullWidth
       size="small"
       id="outlined-basic"
           label={label}
