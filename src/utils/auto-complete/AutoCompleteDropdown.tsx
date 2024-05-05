@@ -5,25 +5,24 @@ import Autocomplete from "@mui/material/Autocomplete";
 interface AutoCompleteDropdownProps {
   placeholder: string;
   listData: any;
-  multiple:boolean;
+  multiple: boolean;
   onChange: (value: any) => void;
 }
- 
+
 export default function AutoCompleteDropdown({
   placeholder = "placeholder",
   listData = [],
-  multiple=false,
+  multiple = false,
   onChange,
 }: AutoCompleteDropdownProps) {
   const handleChange = (event: React.ChangeEvent<{}>, value: any) => {
     // Call the onChange prop with the selected value
     onChange(value);
-    // console.log("value:",value.label)
   };
 
   return (
     <Autocomplete
-      style={{width:'100%'}}
+      style={{ width: "100%" }}
       multiple={multiple}
       size="small"
       disablePortal
@@ -31,9 +30,7 @@ export default function AutoCompleteDropdown({
       options={listData}
       sx={{ width: 300 }}
       onChange={handleChange} // Pass handleChange function to onChange prop of Autocomplete
-      renderInput={(params) => (
-        <TextField  {...params} label={placeholder} />
-      )}
+      renderInput={(params) => <TextField {...params} label={placeholder} />}
     />
   );
 }

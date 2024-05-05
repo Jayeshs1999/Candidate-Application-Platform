@@ -9,22 +9,19 @@ import { Button } from "@mui/material";
 export default function JobCard({ job }: any) {
   const [expanded, setExpanded] = React.useState(false);
 
- const handleExpandClick = () => {
-   setExpanded(!expanded);
- };
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   return (
     <Card
-      //   sx={{ maxWidth: 345 }}
       style={{
         boxShadow:
           "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
       }}
     >
       <CardHeader
-        avatar={
-          <img src={job?.logoUrl} style={{ width: "50px" }} alt="logo" />
-        }
+        avatar={<img src={job?.logoUrl} style={{ width: "50px" }} alt="logo" />}
         title={
           <div
             style={{

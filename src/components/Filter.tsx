@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import AutoCompleteDropdown from '../utils/auto-complete/AutoCompleteDropdown';
-import {  locationList, minExp, rolesList } from '../utils/fakeData';
-import Textfield from '../utils/textfields/Textfield';
-import useDeviceType from '../utils/DeviceType';
+import React, { useEffect, useState } from "react";
+import AutoCompleteDropdown from "../utils/auto-complete/AutoCompleteDropdown";
+import { locationList, minExp, rolesList } from "../utils/dropdownListData";
+import Textfield from "../utils/textfields/Textfield";
+import useDeviceType from "../utils/DeviceType";
 
 interface FilterProps {
-    handleFilterData: (filter:any) => void;
+  handleFilterData: (filter: any) => void;
 }
 
 const Filter = ({ handleFilterData }: FilterProps) => {
@@ -26,12 +26,19 @@ const Filter = ({ handleFilterData }: FilterProps) => {
     }));
   };
 
-    useEffect(() => {
-      handleFilterData(filterData);
+  useEffect(() => {
+    handleFilterData(filterData);
   }, [filterData]);
 
   return (
-    <div style={{ margin: deviceType ==='mobile'? '20px 10px': "20px", display: deviceType==='mobile'? 'grid': "flex", gridTemplateColumns:'1fr 1fr', gap: deviceType==='mobile'?'15px': "20px" }}>
+    <div
+      style={{
+        margin: deviceType === "mobile" ? "20px 10px" : "20px",
+        display: deviceType === "mobile" ? "grid" : "flex",
+        gridTemplateColumns: "1fr 1fr",
+        gap: deviceType === "mobile" ? "15px" : "20px",
+      }}
+    >
       <AutoCompleteDropdown
         multiple={false}
         placeholder="Min experience"
@@ -67,4 +74,4 @@ const Filter = ({ handleFilterData }: FilterProps) => {
   );
 };
 
-export default Filter
+export default Filter;

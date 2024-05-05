@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs } from "./store/actions/jobActions";
-import JobCard from "./utils/JobCard";
+import JobCard from "./utils/job-card/JobCard";
 import Filter from "./components/Filter";
 import useDeviceType from "./utils/DeviceType";
 
@@ -23,15 +23,15 @@ function App() {
     companyName: null,
   });
 
-   const isFilterApplied = () => {
-     return (
-       filterData?.minExp?.label ||
-       filterData?.location?.label ||
-       filterData?.roles?.label ||
-       filterData?.minBasePay !== null ||
-       filterData?.companyName
-     );
-   };
+  const isFilterApplied = () => {
+    return (
+      filterData?.minExp?.label ||
+      filterData?.location?.label ||
+      filterData?.roles?.label ||
+      filterData?.minBasePay !== null ||
+      filterData?.companyName
+    );
+  };
 
   useEffect(() => {
     dispatch<any>(fetchJobs(10, 0)); // Fetch initial jobs
